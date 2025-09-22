@@ -1,0 +1,349 @@
+/* ====== Theme ====== */
+:root{
+  --intel-blue: #0071C5;
+  --intel-blue-700:#005a9e;
+  --intel-ink: #0b1426;
+  --bg: #0a0f1c;
+  --card: #0f172a;
+  --muted: #b8c7e0;
+  --ring: rgba(0,113,197,.35);
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+
+  /* link colors (so grid-only Bootstrap doesn’t look naked) */
+  --link: #9bc6ff;
+  --link-hover: #cfe4ff;
+}
+
+/* ====== Base / Reset-ish ====== */
+*{box-sizing:border-box}
+html,body{
+  margin:0; padding:0; background:var(--bg); color:#e5eefb;
+  font-family:Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height:1.4;
+}
+img{max-width:100%;display:block}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline;color:var(--link-hover)}
+
+/* Accessibility helpers */
+.visually-hidden{
+  position:absolute!important;clip:rect(1px,1px,1px,1px);
+  padding:0;border:0;height:1px;width:1px;overflow:hidden
+}
+
+/* ====== Hero ====== */
+.hero{
+  min-height: 70svh;
+  display:grid; place-items:center;
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(0,113,197,.4), transparent 60%),
+    radial-gradient(1200px 600px at 10% 110%, rgba(0,113,197,.25), transparent 60%),
+    conic-gradient(from 200deg at 50% 50%, #091225, #0b1630, #0a1a3a 60%, #0c1730);
+  position: relative; overflow:hidden;
+}
+.hero::after{
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(800px 300px at 50% 0%, rgba(255,255,255,.06), transparent 70%);
+  pointer-events:none;
+}
+.hero__inner{max-width:1100px;padding: clamp(1rem, 3vw, 2rem); text-align:center}
+.hero__logo{width:min(260px, 38vw); filter: drop-shadow(0 10px 20px rgba(0,0,0,.35))}
+.hero__title{font-size:clamp(1.8rem, 5vw, 3rem); margin:.75rem 0 .5rem 0; letter-spacing:.3px}
+.hero__subtitle{max-width: 70ch; margin:0 auto 1.25rem; color:var(--muted)}
+
+/* CTA button in hero uses the same .btn system below */
+.hero__cta{
+  display:inline-block; padding:.8rem 1.1rem; border-radius:999px;
+  background:linear-gradient(135deg, var(--intel-blue), var(--intel-blue-700));
+  color:#fff; text-decoration:none; font-weight:600;
+  box-shadow: 0 6px 20px rgba(0,113,197,.35);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.hero__cta:hover, .hero__cta:focus{
+  transform: translateY(-2px);
+  box-shadow:0 12px 24px rgba(0,113,197,.45);
+  filter:saturate(1.1)
+}
+
+/* ====== Timeline ====== */
+.timeline{padding: 1rem 0 2rem}
+.timeline__track{
+  display:flex; gap: clamp(.9rem, 2vw, 1.2rem);
+  padding: 1rem clamp(1rem, 3vw, 2rem);
+  overflow-x: auto; overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.timeline__hint{opacity:.7; text-align:center; font-size:.9rem}
+
+/* Card */
+.card{
+  flex: 0 0 min(88vw, 360px);
+  display:flex; flex-direction:column;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px; box-shadow: var(--shadow);
+  overflow:hidden; scroll-snap-align: start; position: relative;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card:focus{outline: 3px solid var(--ring); outline-offset: 2px}
+.card:hover{ transform: translateY(-6px) scale(1.01); box-shadow: 0 16px 40px rgba(0,0,0,.45); border-color: rgba(0,113,197,.35)}
+
+.card__media{aspect-ratio: 16/9; background:#0b223f; overflow:hidden}
+.card__media img{width:100%; height:100%; object-fit:cover; transform: scale(1.02); transition: transform .6s ease}
+.card:hover .card__media img{ transform: scale(1.06)}
+
+.card__body{padding:1rem 1rem 1.2rem}
+.card__year{margin:0; color:#fff; font-size:1.1rem; letter-spacing:.12em; text-transform:uppercase; opacity:.9}
+.card__title{margin:.2rem 0 .5rem; font-size:1.25rem}
+.card__summary{margin:0; color:var(--muted)}
+
+/* Reveal on hover/focus */
+.card__more{
+  margin-top:.9rem; background: rgba(0,113,197,.09);
+  border:1px solid rgba(0,113,197,.25); border-radius:12px;
+  padding:.75rem .9rem; color:#d9e7fb;
+  transform-origin: top; transform: translateY(-6px) scale(.98);
+  opacity:0; pointer-events:none;
+  transition: transform .25s ease, opacity .25s ease, box-shadow .25s ease;
+  box-shadow:none;
+}
+.card:hover .card__more,.card:focus .card__more{
+  transform: translateY(0) scale(1);
+  opacity:1; pointer-events:auto;
+  box-shadow: 0 10px 24px rgba(0,113,197,.2);
+}
+
+/* Scrollbar styling */
+.timeline__track::-webkit-scrollbar{height:10px}
+.timeline__track::-webkit-scrollbar-track{background:rgba(255,255,255,.05); border-radius:20px}
+.timeline__track::-webkit-scrollbar-thumb{background: linear-gradient(90deg, var(--intel-blue), var(--intel-blue-700)); border-radius:20px}
+
+/* Responsive stack */
+@media (max-width: 720px){
+  .timeline__track{ flex-direction: column; overflow-x: visible; scroll-snap-type: none; }
+  .card{flex-basis:auto; width: min(94vw, 560px)}
+}
+
+/* ====== Intel-styled Buttons (works without Bootstrap components) ====== */
+.btn{
+  --btn-bg: var(--intel-blue);
+  --btn-bg-hover: #0a74c5;
+  --btn-border: transparent;
+  --btn-fg: #fff;
+
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:.45rem; padding:.6rem 1rem; border-radius:999px;
+  font-weight:600; line-height:1; cursor:pointer;
+  border:1px solid var(--btn-border); background:var(--btn-bg); color:var(--btn-fg);
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  box-shadow: 0 6px 18px rgba(0,113,197,.28);
+  text-decoration:none;
+}
+.btn:hover{ transform: translateY(-1px); background:var(--btn-bg-hover); box-shadow: 0 10px 24px rgba(0,113,197,.35); }
+.btn:active{ transform: translateY(0); }
+.btn > i{ margin-inline-start:.15rem; }
+
+.btn-primary{
+  --btn-bg: linear-gradient(135deg, #0b84e3, #005a9e);
+  --btn-bg-hover: linear-gradient(135deg, #0a79cf, #004c86);
+  --btn-border: rgba(0,113,197,.55);
+}
+.btn-outline-secondary{
+  --btn-bg: transparent; --btn-fg: #d6e6ff; --btn-border: rgba(255,255,255,.22);
+  box-shadow:none;
+}
+.btn-outline-secondary:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.35); }
+.btn.btn-sm{ padding:.4rem .75rem; font-size:.9rem; }
+
+/* ====== Footer ====== */
+.site-footer{
+  padding:2rem 1rem 3rem; text-align:center;
+  background: radial-gradient(800px 300px at 50% -10%, rgba(255,255,255,.05), transparent 70%);
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.back-to-top{color:#d0e6ff; text-decoration:none; font-weight:600}
+.back-to-top:hover{text-decoration:underline}
+
+/* ====== Three-Column Section ====== */
+.features{
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 5vw, 3rem);
+}
+.feature-card{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px; box-shadow: var(--shadow);
+  padding: 1rem 1rem 1.25rem; height: 100%;
+  display:flex; flex-direction: column; gap:.75rem;
+}
+.feature-title{
+  display:flex; align-items:center; gap:.5rem;
+  font-size:1.1rem; margin:0;
+}
+.feature-text{ color: var(--muted); margin: 0 0 .25rem 0; }
+/* the “Learn more” buttons are .btn via HTML */
+
+/* ====== Footer links row ====== */
+.footer-nav{ display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:.5rem; }
+.footer-link{ color:#cfe2ff; text-decoration:none; }
+.footer-link:hover{ text-decoration:underline; }
+.footer-copy{ color:var(--muted); margin:0 0 .75rem 0; }
+
+/* ====== RTL niceties ====== */
+html[dir="rtl"] .timeline__hint{ direction: rtl; }
+html[dir="rtl"] .timeline__hint::after{ content: ""; }
+
+/* RTL toggle button */
+.rtl-toggle-container{
+  position: fixed; top: .5rem; right: .5rem; z-index: 2000;
+  background: rgba(0,0,0,.35); padding: .4rem .6rem; border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+#rtl-toggle{ font-weight: 600; border-radius: 999px; padding: .35rem .9rem; }
+
+/* Logical icon spacing (LTR/RTL safe) */
+.feature-title i, .subscribe-title i { margin-inline-end: .5rem; }
+.feature-link .bi { margin-inline-start: .25rem; }
+
+/* ====== Newsletter / Subscription Section ====== */
+.subscribe{
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(2.25rem, 5vw, 3rem);
+}
+.subscribe-card{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px; box-shadow: var(--shadow);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+.subscribe-title{
+  margin:0 0 .4rem 0; font-size:1.25rem;
+  display:flex; align-items:center; gap:.55rem;
+}
+.subscribe-title i{ font-size:1.1em; }
+.subscribe-text{ color:var(--muted); margin:0; }
+
+/* Labels */
+.subscribe .form-label{
+  display:block; font-size:.9rem; color:#cfe2ff; margin-bottom:.35rem;
+}
+
+/* Inputs – dark, roomy, rounded */
+.subscribe .form-control,
+.subscribe .form-select{
+  width:100%; height: 44px;
+  padding-inline: .9rem; padding-block: .55rem;
+  border-radius: 12px;
+  background-color: rgba(14, 22, 41, 0.9);
+  border:1px solid rgba(255,255,255,.16);
+  color:#e6f1ff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+.subscribe .form-control::placeholder{ color:#9fb0cc; }
+.subscribe .form-control:focus,
+.subscribe .form-select:focus{
+  outline:none; border-color: rgba(0,113,197,.75);
+  box-shadow: 0 0 0 .2rem rgba(0,113,197,.25);
+}
+
+/* Checkbox */
+.subscribe .form-check{ display:flex; align-items:flex-start; gap:.55rem; }
+.subscribe .form-check-input{
+  inline-size: 18px; block-size: 18px; margin-top:.2rem;
+  border-radius: .35rem;
+  background-color: rgba(14,22,41,.9);
+  border:1px solid rgba(255,255,255,.25);
+  accent-color: var(--intel-blue);
+}
+.subscribe .form-check-input:checked{
+  background-color: var(--intel-blue);
+  border-color: var(--intel-blue);
+}
+
+/* Validation messages on dark */
+.subscribe .invalid-feedback{
+  display:block; margin-top:.35rem;
+  color:#ffb8b8; font-size:.9rem;
+}
+.was-validated .form-control:invalid,
+.form-control.is-invalid{
+  border-color:#ff6b6b;
+  box-shadow: 0 0 0 .2rem rgba(255,107,107,.18);
+}
+
+/* Button layout in the form */
+.subscribe .d-grid.d-sm-flex{ align-items:center; }
+.subscribe .d-grid.d-sm-flex .btn{ min-width: 130px; }
+
+/* ===================== */
+/* FAQ / Accordion       */
+/* ===================== */
+.faq{
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(2.25rem, 5vw, 3rem);
+}
+.faq-card{
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+.faq-title{
+  margin: 0 0 .75rem 0;
+  font-size: 1.25rem;
+  display:flex; align-items:center; gap:.55rem;
+}
+
+/* Accordion structure (styled without Bootstrap component CSS) */
+.accordion{ border: 0; }
+.accordion-item{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: .75rem;
+}
+.accordion-header{ margin: 0; }
+
+/* Button look */
+.accordion-button{
+  width:100%;
+  text-align: start;
+  padding: .9rem 1rem;
+  background: rgba(14,22,41,.7);
+  color: #e6f1ff;
+  border: 0;
+  font-weight: 600;
+  display:flex; align-items:center; gap:.6rem;
+  cursor: pointer;
+}
+.accordion-button:hover{
+  background: rgba(14,22,41,.85);
+}
+.accordion-button::after{
+  content: "";
+  margin-inline-start: auto;
+  inline-size: .65rem; block-size: .65rem;
+  border-inline-end: 2px solid #cfe2ff;
+  border-block-end: 2px solid #cfe2ff;
+  transform: rotate(45deg); /* collapsed by default */
+  transition: transform .2s ease;
+}
+.accordion-button:not(.collapsed)::after{
+  transform: rotate(-45deg);
+}
+
+/* Panel body */
+.accordion-body{
+  padding: 1rem;
+  background: rgba(0,113,197,.07);
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: #d9e7fb;
+}
+
+/* Collapse behavior (since we don't load Bootstrap component CSS) */
+.collapse:not(.show){ display:none; }
+.collapsing{
+  height:0; overflow:hidden; transition: height .2s ease;
+}
+
+/* RTL tweaks */
+html[dir="rtl"] .accordion-button{ text-align: start; } /* logical inline */
